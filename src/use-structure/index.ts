@@ -1,16 +1,17 @@
+import type { Structure } from '../@type-utility'
 import { useState } from 'react'
 
-type HookReturn<T> = {
+type UseStructureReturn<T> = {
   structure: T,
   get: <K extends keyof T>(k: K) => T[K],
   set: <K extends keyof T>(k: K, v: T[K]) => void
 }
 
 
-export const useStructure = <T extends { [index: string]: unknown } = {}>(init: T): HookReturn<T> => {
+export const useStructure = <T extends Structure = {}>(init: T): UseStructureReturn<T> => {
   const [structure, setStructure] = useState(init)
-  const get: HookReturn<T>['get'] = (k) => structure[k]
-  const set: HookReturn<T>['set'] = (k, v) => setStructure(s => ({ ...s, [k]: v }))
+  const get: UseStructureReturn<T>['get'] = (k) => structure[k]
+  const set: UseStructureReturn<T>['set'] = (k, v) => setStructure(s => ({ ...s, [k]: v }))
   return {
     /** the structure object*/
     structure,
